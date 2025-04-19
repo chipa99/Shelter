@@ -7,10 +7,10 @@ const { pets, place } = defineProps(['pets', 'place']);
 
 <template>
     <section>
-        <div class="grid scroll" v-if="pets.length != 0"
-            :class="{ 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 mt-4': place == 'main', 'md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-4': (place == 'profile' || place == 'meetings') && pets.length != 0 }">
+        <div class="grid scroll sm:max-md:justify-items-center" v-if="pets.length != 0"
+            :class="{ 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mt-4 min-h-[50vh]': place == 'main', 'md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-4': (place == 'profile' || place == 'meetings') && pets.length != 0 }">
             <NuxtLink v-for="pet, index in pets" :key="index" :to="'/pets/pet/' + pet._id"
-                class="pt-4 rounded-xl flex flex-col justify-between hover:cursor-pointer shadow-md hover:shadow-xl outline-0 transition-shadow bg-cover  duration-500  relative"
+                class="pt-4 rounded-xl sm:max-md:w-[80%] grayscale-[0.2] hover:grayscale-0 flex flex-col justify-between hover:cursor-pointer shadow-md hover:shadow-xl outline-0 transition-all bg-cover  duration-500  relative"
                 :class="{ 'h-[400px]': place == 'main', 'h-[380px]': place == 'profile' || place == 'meetings' }"
                 :style="`background-image: url(` + pet.image + `)`">
                 <div class="rounded-xl  bg-black/30   w-fit self-center px-2 py-1">
@@ -22,14 +22,14 @@ const { pets, place } = defineProps(['pets', 'place']);
                 <footer
                     class="backdrop-blur-lg backdrop-brightness-[0.7] p-4 w-full rounded-b-xl flex flex-row items-center cursor-default transform-none h-[22%]">
                     <div class="flex flex-row  gap-1 gap-x-2  md:w-[30%] xl:w-[38%] items-center  h-16"
-                        :class="{ 'w-[70%] smm:w-3/4 sm:w-2/4  smm:mr-4': place != 'meetings', 'w-[0%] sm:w-[45%] ': place == 'meetings' }">
+                        :class="{ 'w-[70%] smm:w-3/4 sm:w-[35%] md:w-2/4  smm:mr-4': place != 'meetings', 'w-[0%] sm:w-[45%] ': place == 'meetings' }">
                         <p class="text-gray-200 text-sm overflow-hidden text-ellipsis whitespace-nowrap max-h-full">
                             {{
                                 pet.description }}
                         </p>
                     </div>
                     <div class="md:w-[70%] xl:w-[62%] max-sm:flex  "
-                        :class="{ 'w-fit sm:w-2/4 justify-end': place != 'meetings', 'w-full sm:w-[55%]': place == 'meetings' }">
+                        :class="{ 'w-fit sm:w-[65%] md:w-2/4 justify-end': place != 'meetings', 'w-full sm:w-[55%]': place == 'meetings' }">
                         <button type="button" v-if="place != 'meetings'"
                             class="border-white border-2 w-full outline-none flex justify-center items-center max-sm:px-3 gap-1 hover:bg-white hover:text-black transition duration-500 py-3 flex-nowrap text-nowrap text-white rounded-3xl"
                             @click="addToFavourite(pet)">

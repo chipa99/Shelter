@@ -5,8 +5,8 @@ export default defineEventHandler(async (event) => {
   try {
     await mongoose.connect("mongodb://localhost:27017/shelter");
     const body = await readBody(event);
-    const user = User.findOne(body);
-    return user;
+    await User.findOneAndUpdate(body._id, body);
+    return "success";
   } catch (e) {
     console.error(e);
   }

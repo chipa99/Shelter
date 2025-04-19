@@ -13,7 +13,7 @@ const all = await getPets();
 </script>
 
 <template>
-    <div class="container mx-auto xl:px-12 2xl:px-32">
+    <div class="container mx-auto xl:px-16 2xl:px-28">
         <header class="flex flex-row justify-between gap-5 ">
             <div
                 class="relative basis-11/12 md:basis-10/12 rounded-2xl   outline-0  flex items-center flex-row md:gap-2">
@@ -36,4 +36,3 @@ const all = await getPets();
         </footer>
     </div>
 </template>
-

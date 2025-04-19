@@ -68,7 +68,7 @@ const items = [
 .burger-button::after {
     display: block;
     height: 4px;
-    width: 30px;
+    width: 35px;
     transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
     border-radius: 2px;
 }

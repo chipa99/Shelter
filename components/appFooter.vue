@@ -6,7 +6,7 @@ const selected = ref(items[1]);
 
 <template>
     <footer class="size-full bg-thirdary ">
-        <div class=" py-8  flex flex-col items-center gap-6 container mx-auto xl:px-12 2xl:px-32">
+        <div class=" py-8  flex flex-col items-center gap-6 container mx-auto xl:px-12 2xl:px-28">
             <header class=" flex flex-col smm:flex-row gap-4 items-center   ">
                 <UIcon name="cil:animal" class="text-white" size="36px" />
                 <h1 class="text-white text-2xl font-semibold text-center">Лапа Помощи</h1>
@@ -19,7 +19,7 @@ const selected = ref(items[1]);
             </nav>
         </div>
         <footer class=" w-full bg-[#486291] pt-4 pb-4">
-            <div class="sm:container sm:mx-auto flex flex-row xl:px-12 2xl:px-32 justify-between ">
+            <div class="sm:container sm:mx-auto flex flex-row xl:px-12 2xl:px-28 justify-between ">
                 <div class="max-sm:pl-6 ">
                     <USelectMenu v-slot="{ open }" v-model="selected" :options="items" :popper="{ arrow: true }">
                         <UButton variant="ghost" class="flex-1 text-white hover:bg-transparent  justify-between">

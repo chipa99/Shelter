@@ -4,9 +4,11 @@ import mongoose from "mongoose";
 export default defineEventHandler(async (event) => {
   try {
     await mongoose.connect("mongodb://localhost:27017/shelter");
-    const body = await readBody(event);
-    const user = User.findOne(body);
-    return user;
+    const fields = readBody(event);
+    if (fields) {
+      const user = new User(fields);
+      return user;
+    }
   } catch (e) {
     console.error(e);
   }

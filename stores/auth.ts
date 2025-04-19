@@ -8,8 +8,12 @@ export const useStore = defineStore(
                 "$oid": "67f54d9f6a649bae025dded2"
             }
         });
-        const isAuthed = ref(false);
-        return { isAuthed, user }
+        const logIn = (data: any) => {
+            user.value = data;
+            isAuthed.value = true;
+        }
+        const isAuthed = ref(true);
+        return { isAuthed, user, logIn }
     },
     {
         persist: true,
