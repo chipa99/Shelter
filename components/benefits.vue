@@ -25,8 +25,10 @@ const benefits = [{
     <div
         class="bg-[#5a5451] rounded-b-3xl  shadow-2xl overflow-hidden h-[130vh] lg:h-[110vh] max-lg:flex flex-col  relative pt-6 md:pt-8 ">
 
-        <h1 class="font-bold text-5xl text-white text-center mb-8 ">Почему же мы?</h1>
-        <h3 class="text-2xl text-gray-200 text-center text-pretty mb-24">Потому что наш приют – это место, где
+        <h1 class="font-bold smm:text-xl sm:text-2xl md:text-4xl lg:text-5xl text-white text-center mb-8 ">Почему же мы?
+        </h1>
+        <h3 class="text-lg lg:text-2xl text-gray-200 text-center text-pretty mb-24">Потому что наш приют – это место,
+            где
             бездомные
             животные обретают вторую жизнь, а вы – верного друга.</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 max-lg:mb-20 max-lg:gap-y-12">
@@ -39,11 +41,14 @@ const benefits = [{
         <div class="absolute bottom-0 xl:right-20 w-full h-fit z-0 ">
             <img src="../public/benefits.png" class="w-full lg:w-11/12 xl:w-8/12 z-0 md:mx-auto" alt="dog">
         </div>
-
-        <NuxtLink to="/pets/1"
-            class="lg:absolute right-20 z-10 bottom-20 max-lg:w-fit self-center border-main border-2 rounded-xl text-white text-2xl px-4 py-2 hover:bg-main hover:text-black hover:shadow-md hover:shadow-thirdary transition-all duration-500">
+        <!-- <NuxtLink to="/pets/1" v-for="item, index in 2" :key="index"
+            :class="{ 'max-lg:hidden  left-20': index == 0, 'right-20': index == 1 }"
+            class="lg:absolute lg:animate-bounce hover:animate-none  z-10 bottom-20 max-lg:w-fit self-center border-main border-2 rounded-xl text-white text-2xl px-4 py-2 hover:bg-main hover:text-black hover:shadow-md hover:shadow-thirdary transition-all duration-500">
             Найти друга
-        </NuxtLink>
+        </NuxtLink> -->
+        <appButton label="Найти друга" color="white"
+            :extra="'lg:absolute self-center lg:animate-bounce max-lg:w-fit' + index == 0 ? 'left-20 max-lg:hidden' : 'right-20'"
+            v-for="button, index in 2" :key="index" />
     </div>
 
 </template>

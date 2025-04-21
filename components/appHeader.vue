@@ -1,4 +1,6 @@
 <script setup>
+import { useStore } from '~/stores/auth';
+const { isAuthed } = useStore();
 const links = ref([{
     label: 'Наши лапули',
     to: '/pets/1'
@@ -9,12 +11,10 @@ const links = ref([{
     label: 'Уход',
     to: '/'
 }]);
-
-
 const isOpened = ref(false);
 onMounted(() => {
     const width = ref(window.innerWidth);
-    width.value < 992 ? links.value.unshift({ label: 'Войти в аккаунт', to: '/profile' }) : true;
+    (width.value < 992) && !isAuthed ? links.value.unshift({ label: 'Войти в аккаунт', to: '/login' }) : true;
 });
 </script>
 
@@ -36,17 +36,14 @@ onMounted(() => {
                 <div class="xl:order-3 order-2 xl:basis-3/12 w-1/2 flex justify-end gap-4 ">
                     <NuxtLink
                         class="text-xl rounded-3xl text-nowrap shadow-lg hover:shadow-gray-400 px-4 max-lg:hidden py-[0.6rem] flex items-center outline-0 bg-thirdary text-white transition-shadow duration-500"
-                        to="/login">Вход
-                        и
-                        Регистрирация
+                        :to="isAuthed ? '/login' : '/profile'">{{ !isAuthed ? "Вход и регистрация" : "Перейти в профиль"
+                        }}
                     </NuxtLink>
-
                     <div class="flex lg:hidden items-center hover:cursor-pointer max-lg:pr-3"
                         @click="isOpened = !isOpened">
                         <button class="burger after:bg-gray-500 before:bg-gray-500"
                             :class="{ 'bg-transparent  after:rotate-[45deg] before:rotate-[-45deg] before:m-0 after:-mt-[5px] ': isOpened, 'before:-mt-2 after:mt-3 bg-gray-500': !isOpened }"></button>
                     </div>
-
                 </div>
             </nav>
         </header>

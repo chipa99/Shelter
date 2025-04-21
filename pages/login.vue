@@ -7,30 +7,25 @@ import { useStore } from '~/stores/auth';
 const { logIn } = useStore();
 const isLeft = ref(true);
 const isHovered = ref(false);
+// const { handleSubmit } = useForm();
 const validationSchema = {
     firstname(value) {
         if (value && value.trim()) {
-            console.log('valid')
             return true;
         }
-        console.log('unvalid')
-        return 'This is required';
+        return 'Firstname is required';
     },
     mail(value) {
         if (value && value.trim()) {
-            console.log('valid')
             return true;
         }
-        console.log('unvalid')
-        return 'This is required';
+        return 'Mail is required';
     },
     password(value) {
         if (value && value.trim()) {
-            console.log('valid')
             return true;
         }
-        console.log('unvalid')
-        return 'This is required';
+        return 'Password is required';
     }
 }
 
@@ -62,10 +57,8 @@ const swap = () => {
     };
     validationSchema.firstname = (value) => {
         if (value && value.trim()) {
-            console.log('valid')
             return true;
         }
-        console.log('unvalid')
         return 'This is required';
     }
     formFields.value.unshift({
@@ -76,27 +69,29 @@ const swap = () => {
     });
 }
 
-const sendForm = async (values) => {
-    if (isLeft.value == true) {
-        const { data, status } = useFetch('/api/login', {
-            method: 'POST',
-            body: values
-        });
-        if (status.value == 'success') {
-            logIn(data.value);
-            await navigateTo('/pets/page/1')
-        }
-        return
-    }
-    const { data, status } = useFetch('/api/profile', {
-        method: 'POST',
-        body: values
-    });
-    if (status.value == 'success') {
-        logIn(data.value);
-        await navigateTo('/pets/page/1')
-    }
-}
+// const sendForm = handleSubmit(async (values) => {
+//     console.log(JSON.stringify(values))
+    
+    // if (isLeft.value == true) {
+    //     const { data, status } = await useFetch('/api/login', {
+    //         method: 'POST',
+    //         body: values
+    //     });
+    //     if (status.value == 'success') {
+    //         logIn(data.value);
+    //         await navigateTo('/pets/1')
+    //     }
+    //     return
+    // }
+    // const { data, status } = await useFetch('/api/profile', {
+    //     method: 'POST',
+    //     body: values
+    // });
+    // if (status.value == 'success') {
+    //     logIn(data.value);
+    //     await navigateTo('/pets/1')
+    // }
+// })
 
 </script>
 
@@ -115,23 +110,17 @@ const sendForm = async (values) => {
             :class="{ 'lg:-translate-x-[393px]': !isLeft, 'lg:basis-7/12': !isHovered, 'lg:basis-6/12': isHovered && isLeft }">
             <header class="flex flex-col items-center  mb-6 gap-6">
                 <h1 class="text-[#4b5fa0] text-3xl text-center ">
-                    <span v-if="isLeft">Регистрация</span>
-                    <span v-else>Войти в систему</span>
+                  {{ isLeft ? "Регистрация" : "Войти в систему" }}
                 </h1>
                 <div class="flex  gap-2">
                     <button type="button"
-                        class="p-1 border-gray-300 border-2 flex items-center rounded-full transition duration-300 hover:shadow-md shadow-gray-300 bg-transparent hover:bg-[#d6c7be] hover:text-white"
+                        class="p-1.5 ring-gray-300 ring-2 flex items-center rounded-full transition duration-300 hover:shadow-md shadow-gray-300 bg-transparent hover:bg-thirdary hover:ring-0 hover:text-white"
                         v-for="button, index in regWays" :key="index">
                         <UIcon :name="button" size="32" />
                     </button>
                 </div>
                 <button class="text-gray-400 bg-transparent hover:text-gray-600 transition duration-300" @click="swap">
-                    <span v-if="isLeft"> Или войдите с
-                        помощью
-                        своих данных
-                    </span>
-                    <span v-else>Или
-                        создайте новый аккаунт</span>
+                  {{ isLeft ? "Или войдите с помощью своих данных" : "Или создайте новый аккаунт" }}  
                 </button>
             </header>
             <div class="flex flex-col items-center gap-y-4 mb-6">
@@ -149,8 +138,7 @@ const sendForm = async (values) => {
                 <button
                     class="rounded-full bg-[#4b5fa0] text-white hover:ring-2 ring-white hover:text-gray-200 transition duration-300 outline-white py-3.5 px-4 text-lg"
                     type="submit">
-                    <span v-if="isLeft">Создать аккаунт</span>
-                    <span v-else>Войти в систему</span>
+                    {{ isLeft ? "Создать аккаунт" : "Войти в систему" }}
                 </button>
             </footer>
         </Form>

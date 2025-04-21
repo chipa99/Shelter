@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   // },
   modules: ['@nuxt/ui', '@nuxtjs/tailwindcss', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt', '@vee-validate/nuxt'],
   pinia: {
-    storesDirs: ['./stores/**', './custom-folder/stores/**'],
+    storesDirs: ['~/stores/**', '~/custom-folder/stores/**'],
   },
   css: [`~/assets/css/main.css`],
 })

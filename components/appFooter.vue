@@ -7,13 +7,13 @@ const selected = ref(items[1]);
 <template>
     <footer class="size-full bg-thirdary ">
         <div class=" py-8  flex flex-col items-center gap-6 container mx-auto xl:px-12 2xl:px-28">
-            <header class=" flex flex-col smm:flex-row gap-4 items-center   ">
+            <header class=" flex flex-col smm:flex-row gap-4 items-center">
                 <UIcon name="cil:animal" class="text-white" size="36px" />
                 <h1 class="text-white text-2xl font-semibold text-center">Лапа Помощи</h1>
             </header>
             <nav class="flex flex-col sm:flex-row items-center gap-6 smm:gap-12 ">
                 <a v-for="link, index in navs" :key="index"
-                    class="text-gray-200 max-sm:basis-1/2    hover:text-gray-300 hover:cursor-pointer transition duration-300 text-nowrap">{{
+                    class="text-gray-300 max-sm:basis-1/2 hover:text-white hover:cursor-pointer transition duration-300 text-nowrap">{{
                         link
                     }}</a>
             </nav>

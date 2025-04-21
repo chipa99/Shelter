@@ -3,6 +3,7 @@ const { isActive, fields } = defineProps(['isActive', 'fields']);
 const isDisabled = ref(true);
 const isOpened = ref(false);
 const isSigned = ref(false);
+const isModaled = ref(false);
 const formFields = ref([{
   placeholder: 'Имя',
   id: 'firstname',
@@ -55,10 +56,28 @@ const toggleDisabled = () => {
   }
   isDisabled.value = !isDisabled.value;
 }
+const deleteAccount = async () => await $fetch('/api/profile', { method: 'delete', body: { _id: fields._id } }); await navigateTo('/pets/1');
+const items = [
+  'Вы сами отвечаете за контент вашего аватар',
+  'Главный контент должен находиться по середине',
+  'Предпочтительный размер изображения не больше 1300 на 900 пикселей',
+  'Ссылка к изображению должна быть общедоступной'
+];
 </script>
 
 <template>
   <section class="rounded-xl bg-main p-8 w-full lg:w-full" v-if="isActive">
+    <UModal v-model="isModaled">
+      <div class="p-4">
+        <h1 class="text-gray-600 font-extrabold text-4xl mb-8">Удалить аккаунт?</h1>
+        <h2 class="text-gray-600 text-lg mb-8">Вернуть обратно уже нельзя.</h2>
+        <button @click="deleteAccount"
+          class="w-full rounded-md bg-gray-200 flex justify-center items-center hover:bg-gray-300 transition-all duration-300 text-gray-600 text-lg py-3 mb-2 shadow">Удалить</button>
+        <button
+          class="w-full rounded-md bg-red-400 flex  justify-center items-center hover:bg-red-500 transition-all duration-300 text-white text-lg py-3 mb-2 shadow"
+          @click="isModaled = false">Отменить</button>
+      </div>
+    </UModal>
     <div class="flex flex-col sm:flex-row h-fit items-center mb-8">
       <div class="relative rounded-[90%] sm:basis-1/2 lg:basis-1/4 max-sm:mb-8">
         <img src="~/public/avatar.jpg" alt="avatar" class="object-cover rounded-[90%] object-[10%] size-40 " />
@@ -89,10 +108,7 @@ const toggleDisabled = () => {
             </span>
             <UCheckbox class="inline-block" color="blue" v-model="isSigned" />
             <ul class="*:opacity-0 peer-hover:*:opacity-100 *:transition-opacity *:duration-700">
-              <li>Вы сами отвечаете за контент вашего аватар</li>
-              <li>Главный контент должен находиться по середине</li>
-              <li>Предпочтительный размер изображения не больше 1300 на 900 пикселей</li>
-              <li>Ссылка к изображению должна быть общедоступной</li>
+              <li v-for="item, index in items" :key="index">{{ item }}</li>
             </ul>
           </div>
         </div>

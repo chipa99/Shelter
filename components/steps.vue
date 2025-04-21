@@ -4,20 +4,23 @@ const advantages =
         title: 'Выбор',
         description: 'Выберите животное, которое вам понравилось',
         icon: 'fluent:animal-dog-24-regular',
-        button: 'К животным'
+        button: 'К животным',
+        link: '/pets/1'
     },
     {
 
         title: 'Регистрация',
         description: 'Несколько полей, и подходящая для вас дата, когда вы сможете приехать',
         icon: 'codicon:sign-in',
-        button: 'К регистрации'
+        button: 'К регистрации',
+        link: '/login'
     },
     {
         title: 'Консультация',
         description: 'Мы скажем, подойдет ли вам это животное, если нет - выберем другое',
         icon: 'heroicons:question-mark-circle',
-        button: 'К консультации'
+        button: 'К консультации',
+        link: '/login'
     }];
 </script>
 
@@ -36,10 +39,7 @@ const advantages =
                 </div>
                 <h2 class="text-3xl font-semibold text-nowrap mb-6">{{ advantage.title }}</h2>
                 <h3 class="text-lg text-gray-500 text-pretty mb-10 smm:mb-auto">{{ advantage.description }}</h3>
-                <NuxtLink to="/pets/1"
-                    class="inline-block py-3 px-5 text-2xl text-nowrap text-white bg-[#74a5ff] hover:bg-[#6590e0] rounded-2xl drop-shadow-xl font-extrabold transiton duration-300 hover:text-gray-200">
-                    {{ advantage.button }}
-                </NuxtLink>
+                <appButton :label="advantage.button" :href="advantage.link" />
             </div>
         </div>
     </div>

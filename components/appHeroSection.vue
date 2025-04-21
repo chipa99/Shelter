@@ -35,11 +35,7 @@ const items = [{
             </header>
 
             <div class="flex max-md:justify-end mb-40 sm:mb-60 md:mb-40">
-                <NuxtLink to="/pets/1"
-                    class=" inline-block  py-3 px-5 text-2xl text-white bg-[#74a5ff] hover:bg-[#6590e0] rounded-2xl drop-shadow-xl font-extrabold transiton duration-300 hover:text-gray-200">
-                    Искать
-                    друга
-                </NuxtLink>
+                <appButton label="Искать друга" href="/pets/1" />
             </div>
             <footer
                 class="flex flex-row max-smm:flex-wrap max-md:justify-center smm:divide-x-[3px] rounded-lg divide-thirdary lg:divide-light ">
