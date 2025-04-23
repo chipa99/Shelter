@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   // generate: {
   //   fallback: true
   // },
-  modules: ['@nuxt/ui', '@nuxtjs/tailwindcss', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt', '@vee-validate/nuxt'],
+  modules: ['@nuxt/ui', '@nuxtjs/tailwindcss', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
   pinia: {
     storesDirs: ['~/stores/**', '~/custom-folder/stores/**'],
   },
