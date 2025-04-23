@@ -1,8 +1,5 @@
 <script setup>
 const { pets, place } = defineProps(['pets', 'place']);
-// const addToFavourite = () => {
-//     const cookie = useCookie('favourites',);
-// }
 </script>
 
 <template>
@@ -14,13 +11,13 @@ const { pets, place } = defineProps(['pets', 'place']);
                 :class="{ 'h-[400px]': place == 'main', 'h-[380px]': place == 'profile' || place == 'meetings' }"
                 :style="`background-image: url(` + pet.image + `)`">
                 <div class="rounded-xl  bg-black/30   w-fit self-center px-2 py-1">
-                    <h1 class="text-white text-2xl font-semibold  ">
+                    <h1 class="text-white  text-2xl font-semibold  ">
                         {{
                             pet.name }}</h1>
                 </div>
 
                 <footer
-                    class="backdrop-blur-lg backdrop-brightness-[0.7] p-4 w-full rounded-b-xl flex flex-row items-center cursor-default transform-none h-[22%]">
+                    class="backdrop-blur-lg backdrop-brightness-[0.7] dark:backdrop-brightness-50 p-4 w-full rounded-b-xl flex flex-row items-center cursor-default transform-none h-[22%]">
                     <div class="flex flex-row  gap-1 gap-x-2  md:w-[30%] xl:w-[38%] items-center  h-16"
                         :class="{ 'w-[70%] smm:w-3/4 sm:w-[35%] md:w-2/4  smm:mr-4': place != 'meetings', 'w-[0%] sm:w-[45%] ': place == 'meetings' }">
                         <p class="text-gray-200 text-sm overflow-hidden text-ellipsis whitespace-nowrap max-h-full">
@@ -31,7 +28,7 @@ const { pets, place } = defineProps(['pets', 'place']);
                     <div class="md:w-[70%] xl:w-[62%] max-sm:flex  "
                         :class="{ 'w-fit sm:w-[65%] md:w-2/4 justify-end': place != 'meetings', 'w-full sm:w-[55%]': place == 'meetings' }">
                         <button type="button" v-if="place != 'meetings'"
-                            class="border-white border-2 w-full outline-none flex justify-center items-center max-sm:px-3 gap-1 hover:bg-white hover:text-black transition duration-500 py-3 flex-nowrap text-nowrap text-white rounded-3xl"
+                            class="border-white border-2 w-full outline-none flex justify-center items-center max-sm:px-3 gap-1 text-white hover:bg-white hover:text-black dark:border-[#6688c7] dark:text-darkLight dark:hover:bg-darkSecondary dark:hover:border-darkSecondary  transition duration-500 py-3 flex-nowrap text-nowrap  rounded-3xl"
                             @click="addToFavourite(pet)">
                             <UIcon name="line-md:heart" class="sm:hidden size-7" v-if="place != 'profile'" />
                             <UIcon name="solar:heart-broken-broken" class="sm:hidden size-7" v-else />

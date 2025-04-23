@@ -1,7 +1,7 @@
 <template>
     <div class="scroll overflow-x-hidden">
         <AppHeader />
-        <main class="bg-secondary py-4">
+        <main class="bg-secondary dark:bg-darkMain py-4">
             <slot />
         </main>
         <AppFooter class="" />
@@ -12,6 +12,4 @@
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

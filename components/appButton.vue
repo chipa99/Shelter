@@ -29,6 +29,7 @@ const props = defineProps({
     },
     extra: {
         type: String,
+        default: "",
         required: false
     }
 });
@@ -36,12 +37,12 @@ const buttonClasses = computed(() => {
     const baseClasses = 'inline-flex drop-shadow-xl z-10 text-nowrap items-center justify-center font-extrabold  transition-all duration-300 hover:animate-none outline-0';
     const colorClasses = {
         primary: 'bg-[#74a5ff] hover:bg-[#6590e0] text-white ring-[#74a5ff] ring-2 hover:ring-0',
-        white: 'bg-white hover:text-black text-black ring-white ring-2 hover:ring-0',
+        white: 'bg-current hover:text-black text-black ring-current ring-2 hover:ring-0',
         dark: 'bg-thirdary text-white hover:shadow-current shadow-sm ring-thirdary ring-2 hover:ring-0',
     };
     const variantClasses = {
-        solid: 'ring-0',
-        outline: 'bg-transparent'
+        solid: '!ring-0',
+        outline: '!bg-transparent text-current'
     }
     const borderClasses = {
         xl: 'rounded-3xl',
@@ -59,7 +60,7 @@ const buttonClasses = computed(() => {
     const borderClass = borderClasses[props.border] || sizeClasses.base;
     const colorClass = colorClasses[props.color] || colorClasses.primary
 
-    return `${baseClasses}   ${colorClass} ${sizeClass} ${borderClass}   ${props.extra} ${variantClass}`;
+    return `${baseClasses} ${colorClass} ${sizeClass} ${borderClass} ${variantClass} ${props.extra} `;
 });
 </script>
 

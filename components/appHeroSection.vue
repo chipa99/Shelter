@@ -1,15 +1,5 @@
 <script setup>
 const { isSticky } = defineProps(['isSticky']);
-const items = [{
-    'title': '1 тыс.',
-    'subtitle': 'Хозяев'
-}, {
-    'title': '1.5 тыс.',
-    'subtitle': 'Нашли <br/> дом'
-}, {
-    'title': '100',
-    'subtitle': 'Еще ждут <br/> друга'
-}]
 </script>
 
 <template>
@@ -40,7 +30,7 @@ const items = [{
             <footer
                 class="flex flex-row max-smm:flex-wrap max-md:justify-center smm:divide-x-[3px] rounded-lg divide-thirdary lg:divide-light ">
                 <div class="flex flex-col gap-4 first:pr-4 last:pl-4 " :class="{ 'px-4': index == 1 }"
-                    v-for="item, index in items" :key="index">
+                    v-for="item, index in heroSectionItems()" :key="index">
                     <h1
                         class="text-2xl sm:text-3xl font-bold text-center lg:text-white text-nowrap text-black second-font">
                         {{

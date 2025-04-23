@@ -1,4 +1,5 @@
-export const useFormData = (fields) => {
+import { useStore } from "~/stores/auth";
+export const useFormData = () => {
     const isDisabled = ref(true);
     const isOpened = ref(false);
     const isSigned = ref(false);
@@ -31,20 +32,15 @@ export const useFormData = (fields) => {
         placeholder: 'Здесь вы можете написать небольшое количество информации о себе',
         model: ref('')
     }]);
-    (formFields.value).forEach(field => {
-        if (fields[field.id]) {
-            field.model = fields[field.id];
-        }
-    });
     const amendInfo = async () => {
         const sendData = {};
         (formFields.value).forEach(({ model, id }) => sendData[id] = model);
-        await useFetch('/api/profile', {
+        await $fetch('/api/profile', {
             method: 'patch',
             body: sendData
         });
     }
-    const handleClick = (field) => {
+    const handleClick = (field: any) => {
         if (field.id === 'password') {
             field.showPassword = !field.showPassword; // Toggle showPassword directly
         }
@@ -55,5 +51,6 @@ export const useFormData = (fields) => {
         }
         isDisabled.value = !isDisabled.value;
     }
-    return { formFields, amendInfo, handleClick, toggleDisabled, isDisabled, isOpened, isSigned, isModaled };
+    const deleteAccount = async () => { await $fetch('/api/profile', { method: 'delete', body: { _id: useStore().user._id.$oid } }); useStore().logOut(); await navigateTo('/pets/1') };
+    return { formFields, handleClick, toggleDisabled, deleteAccount, isDisabled, isOpened, isSigned, isModaled };
 };

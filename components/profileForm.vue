@@ -1,68 +1,11 @@
 <script setup>
 const { isActive, fields } = defineProps(['isActive', 'fields']);
-const isDisabled = ref(true);
-const isOpened = ref(false);
-const isSigned = ref(false);
-const isModaled = ref(false);
-const formFields = ref([{
-  placeholder: 'Имя',
-  id: 'firstname',
-  model: ref(''),
-  neccesary: true
-}, {
-  id: 'surname',
-  placeholder: 'Фамилия',
-  model: ref('')
-}, {
-  id: 'mail',
-  placeholder: 'Почта',
-  model: ref(''),
-  neccesary: true,
-  type: 'email'
-}, {
-  id: 'password',
-  placeholder: 'Пароль',
-  model: ref(''),
-  type: 'password',
-  neccesary: true,
-  showPassword: false
-}, {
-  id: 'description',
-  label: 'Информация о себе',
-  placeholder: 'Здесь вы можете написать небольшое количество информации о себе',
-  model: ref('')
-}]);
+const { formFields, deleteAccount, handleClick, toggleDisabled, isDisabled, isOpened, isSigned, isModaled } = useFormData();
 (formFields.value).forEach(field => {
   if (fields[field.id]) {
     field.model = fields[field.id];
   }
 });
-const amendInfo = async () => {
-  const sendData = {};
-  (formFields.value).forEach(({ model, id }) => sendData[id] = model);
-  await useFetch('/api/profile', {
-    method: 'patch',
-    body: sendData
-  });
-}
-const handleClick = (field) => {
-  if (field.id === 'password') {
-    field.showPassword = !field.showPassword; // Toggle showPassword directly
-  }
-};
-const toggleDisabled = () => {
-  if (isDisabled.value === false) {
-    amendInfo();
-  }
-  isDisabled.value = !isDisabled.value;
-}
-const deleteAccount = async () => await $fetch('/api/profile', { method: 'delete', body: { _id: fields._id } }); await navigateTo('/pets/1');
-const items = [
-  'Вы сами отвечаете за контент вашего аватар',
-  'Главный контент должен находиться по середине',
-  'Предпочтительный размер изображения не больше 1300 на 900 пикселей',
-  'Ссылка к изображению должна быть общедоступной'
-];
 </script>
 
 <template>
@@ -92,7 +35,7 @@ const items = [
           <h1 class="font-extrabold text-center mb-2">Аватар</h1>
           <img src="../public/placeholder.jpg" alt="avatar" class="rounded-[100%] mb-2">
           <div class="flex gap-y-1 flex-col mb-3">
-            <label :for="Изоображение" class=" text-xl"
+            <label for="Изоображение" class=" text-xl"
               :class="{ 'text-gray-400': (isDisabled && !isSigned), 'text-black': (!isDisabled && isSigned) }">Изоображение</label>
             <input :disabled="(isDisabled && !isSigned)"
               class=" rounded-lg w-full   placeholder-gray-400 focus:bg-blue-100 outline-0 h-full  text-xl peer focus:placeholder-black px-2 py-4 pl-4 ring-1  ring-gray-600    focus-within:ring-[#4b5fa0] focus-within:ring-2 focus-within:shadow-xl focus-within:bg-blue-100 transition duration-300  bg-white"
@@ -108,7 +51,7 @@ const items = [
             </span>
             <UCheckbox class="inline-block" color="blue" v-model="isSigned" />
             <ul class="*:opacity-0 peer-hover:*:opacity-100 *:transition-opacity *:duration-700">
-              <li v-for="item, index in items" :key="index">{{ item }}</li>
+              <li v-for="item, index in profileFormItems()" :key="index">{{ item }}</li>
             </ul>
           </div>
         </div>

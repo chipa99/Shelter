@@ -8,6 +8,9 @@ export default {
         light: "#afcbff",
         secondary: "#f9fbf2",
         thirdary: "#5c7ab3",
+        darkMain: "#181f30",
+        darkSecondary: "#415780",
+        darkLight: "#e7e7e7",
       },
       boxShadow: {
         beauty:

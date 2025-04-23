@@ -1,33 +1,33 @@
-<script setup>
+<!-- <script setup>
 definePageMeta({
     layout: 'login',
-    middleware: ['is-authed']
+    // middleware: ['is-authed']
 });
 import { useStore } from '~/stores/auth';
 const { logIn } = useStore();
 const isLeft = ref(true);
 const isHovered = ref(false);
 // const { handleSubmit } = useForm();
-const validationSchema = {
-    firstname(value) {
-        if (value && value.trim()) {
-            return true;
-        }
-        return 'Firstname is required';
-    },
-    mail(value) {
-        if (value && value.trim()) {
-            return true;
-        }
-        return 'Mail is required';
-    },
-    password(value) {
-        if (value && value.trim()) {
-            return true;
-        }
-        return 'Password is required';
-    }
-}
+// const validationSchema = {
+//     firstname(value) {
+//         if (value && value.trim()) {
+//             return true;
+//         }
+//         return 'Firstname is required';
+//     },
+//     mail(value) {
+//         if (value && value.trim()) {
+//             return true;
+//         }
+//         return 'Mail is required';
+//     },
+//     password(value) {
+//         if (value && value.trim()) {
+//             return true;
+//         }
+//         return 'Password is required';
+//     }
+// }
 
 const formFields = ref([{
     placeholder: 'Имя',
@@ -52,15 +52,15 @@ const swap = () => {
     isLeft.value = !isLeft.value;
     if (formFields.value.length == 3) {
         formFields.value.shift();
-        delete validationSchema.firstname
+        // delete validationSchema.firstname
         return
     };
-    validationSchema.firstname = (value) => {
-        if (value && value.trim()) {
-            return true;
-        }
-        return 'This is required';
-    }
+    // validationSchema.firstname = (value) => {
+    //     if (value && value.trim()) {
+    //         return true;
+    //     }
+    //     return 'This is required';
+    // }
     formFields.value.unshift({
         placeholder: 'Имя',
         name: 'firstname',
@@ -69,48 +69,48 @@ const swap = () => {
     });
 }
 
-// const sendForm = handleSubmit(async (values) => {
-//     console.log(JSON.stringify(values))
-    
-    // if (isLeft.value == true) {
-    //     const { data, status } = await useFetch('/api/login', {
-    //         method: 'POST',
-    //         body: values
-    //     });
-    //     if (status.value == 'success') {
-    //         logIn(data.value);
-    //         await navigateTo('/pets/1')
-    //     }
-    //     return
-    // }
-    // const { data, status } = await useFetch('/api/profile', {
-    //     method: 'POST',
-    //     body: values
-    // });
-    // if (status.value == 'success') {
-    //     logIn(data.value);
-    //     await navigateTo('/pets/1')
-    // }
-// })
+const sendForm = async () => {
+    const sendData = {};
+    (formFields.value).forEach(({ model, name }) => sendData[name] = model);
+    if (isLeft.value == true) {
+        const { data, status } = await useFetch('/api/login', {
+            method: 'POST',
+            body: sendData
+        });
+        if (status.value == 'success') {
+            logIn(data.value);
+            await navigateTo('/pets/1')
+        }
+        return
+    }
+    const { data, status } = await useFetch('/api/profile', {
+        method: 'POST',
+        body: sendData
+    });
+    if (status.value == 'success') {
+        logIn(data.value);
+        await navigateTo('/pets/1')
+    }
+} -->
 
-</script>
+<!-- </script> -->
 
 <template>
     <div
         class="bg-main rounded-md   h-[500px] w-[939px] flex absolute top-0 left-0 bottom-0 right-0 m-auto sm:max-lg:container max-sm:size-full">
-        <aside
+        <!-- <aside
             class="max-lg:hidden basis-5/12 flex flex-col items-center shadow-xl z-10 shadow-thirdary py-6  transition-all duration-500  bg-cover bg-center bg-thirdary rounded-l-md rounded-r-xl h-full w-full"
             :class="{ 'lg:translate-x-[550px] ': !isLeft, 'lg:basis-5/12': !isHovered, 'lg:basis-6/12': isHovered && isLeft }">
             <header class="flex items-center">
                 <h1 class="text-white text-2xl">Лапа Помощи</h1>
             </header>
         </aside>
-        <Form @submit.prevent="sendForm" :validation-schema="validationSchema"
+        <form @submit.prevent="sendForm"
             class=" lg:basis-7/12 basis-full pt-6 transition-all px-6 duration-500 max-sm:justify-center flex flex-col z-0"
             :class="{ 'lg:-translate-x-[393px]': !isLeft, 'lg:basis-7/12': !isHovered, 'lg:basis-6/12': isHovered && isLeft }">
             <header class="flex flex-col items-center  mb-6 gap-6">
                 <h1 class="text-[#4b5fa0] text-3xl text-center ">
-                  {{ isLeft ? "Регистрация" : "Войти в систему" }}
+                    {{ isLeft ? "Регистрация" : "Войти в систему" }}
                 </h1>
                 <div class="flex  gap-2">
                     <button type="button"
@@ -120,7 +120,7 @@ const swap = () => {
                     </button>
                 </div>
                 <button class="text-gray-400 bg-transparent hover:text-gray-600 transition duration-300" @click="swap">
-                  {{ isLeft ? "Или войдите с помощью своих данных" : "Или создайте новый аккаунт" }}  
+                    {{ isLeft ? "Или войдите с помощью своих данных" : "Или создайте новый аккаунт" }}
                 </button>
             </header>
             <div class="flex flex-col items-center gap-y-4 mb-6">
@@ -129,7 +129,7 @@ const swap = () => {
                     <UIcon :name="field.icon" class="text-gray-500 pointer-events-none absolute peer-focus:text-black"
                         size="24px">
                     </UIcon>
-                    <Field :name="field.name"
+                    <input
                         class=" rounded-lg pl-8 w-full bg-white placeholder-gray-500  outline-0 text-2xl  peer focus:placeholder-black"
                         :placeholder="field.placeholder" />
                 </div>
@@ -141,7 +141,7 @@ const swap = () => {
                     {{ isLeft ? "Создать аккаунт" : "Войти в систему" }}
                 </button>
             </footer>
-        </Form>
+        </form>
         <div class="absolute z-10  top-48 left-[370px] transition duration-500 max-lg:hidden"
             @mouseenter="isHovered = true" @mouseleave="isHovered = false"
             :class="{ 'translate-x-[155px]': !isLeft, 'translate-x-[40px]': isHovered && isLeft }">
@@ -150,7 +150,7 @@ const swap = () => {
                 <UIcon name="iconamoon:arrow-right-2" class="transition duration-500 "
                     :class="{ 'rotate-180': !isLeft }" size="28" />
             </button>
-        </div>
+        </div> -->
     </div>
 </template>
 

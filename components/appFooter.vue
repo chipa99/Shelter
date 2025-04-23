@@ -5,7 +5,7 @@ const selected = ref(items[1]);
 </script>
 
 <template>
-    <footer class="size-full bg-thirdary ">
+    <footer class="size-full bg-thirdary dark:bg-[#354768]">
         <div class=" py-8  flex flex-col items-center gap-6 container mx-auto xl:px-12 2xl:px-28">
             <header class=" flex flex-col smm:flex-row gap-4 items-center">
                 <UIcon name="cil:animal" class="text-white" size="36px" />
@@ -18,7 +18,7 @@ const selected = ref(items[1]);
                     }}</a>
             </nav>
         </div>
-        <footer class=" w-full bg-[#486291] pt-4 pb-4">
+        <footer class=" w-full bg-[#486291] dark:bg-[#28354e] pt-4 pb-4">
             <div class="sm:container sm:mx-auto flex flex-row xl:px-12 2xl:px-28 justify-between ">
                 <div class="max-sm:pl-6 ">
                     <USelectMenu v-slot="{ open }" v-model="selected" :options="items" :popper="{ arrow: true }">
