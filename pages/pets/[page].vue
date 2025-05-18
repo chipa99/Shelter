@@ -13,7 +13,7 @@ const all = await getPets();
 </script>
 
 <template>
-    <div class="container mx-auto xl:px-16 2xl:px-28">
+    <div class="container mx-auto pt-20  xl:px-16 2xl:px-28">
         <searchForm />
         <PetCards :pets="all.pets" place="main" />
         <footer class="mt-4 flex justify-center">

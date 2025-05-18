@@ -7,7 +7,7 @@ const { pets, place } = defineProps(['pets', 'place']);
         <div class="grid scroll sm:max-md:justify-items-center" v-if="pets.length != 0"
             :class="{ 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 mt-4 min-h-[50vh]': place == 'main', 'md:grid-cols-2 grid-cols-1 gap-x-4 gap-y-4': (place == 'profile' || place == 'meetings') && pets.length != 0 }">
             <NuxtLink v-for="pet, index in pets" :key="index" :to="'/pets/pet/' + pet._id"
-                class="pt-4 rounded-xl sm:max-md:w-[80%] grayscale-[0.2] hover:grayscale-0 flex flex-col justify-between hover:cursor-pointer shadow-md hover:shadow-xl outline-0 transition-all bg-cover  duration-500  relative"
+                class="pt-4 rounded-xl sm:max-md:w-[80%] grayscale-[0.2] hover:grayscale-0 flex flex-col justify-between hover:cursor-pointer shadow-md hover:shadow-xl outline-0 transition-all bg-cover dark:hover:shadow-light/10 dark:shadow-none dark:hover:shadow-xl  duration-500 relative"
                 :class="{ 'h-[400px]': place == 'main', 'h-[380px]': place == 'profile' || place == 'meetings' }"
                 :style="`background-image: url(` + pet.image + `)`">
                 <div class="rounded-xl  bg-black/30   w-fit self-center px-2 py-1">

@@ -4,14 +4,7 @@ export const useStore = defineStore(
     'auth',
     () => {
         const user = ref({
-            "_id": {
-                "$oid": "6808d3d6e76f829d591b6c11"
-            },
-            "firstname": "Savely",
-            "surname": "Suslova",
-            "mail": "savelij@gmail.com",
-            "password": "lolkekda2002",
-            "description": "Good one"
+
         });
         const logIn = (data: any) => {
             user.value = data;
@@ -21,7 +14,7 @@ export const useStore = defineStore(
             user.value = null as any;
             isAuthed.value = false;
         }
-        const isAuthed = ref(true);
+        const isAuthed = ref(false);
         return { isAuthed, user, logIn, logOut }
     },
     {

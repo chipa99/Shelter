@@ -19,7 +19,7 @@ export const useProfilePage = () => {
       isActive: false,
     },
   ]);
-  const NavClick = (index) => {
+  const handleClick = (index) => {
     navs.value.forEach((value, indexFunc) =>
       indexFunc == index ? (value.isActive = true) : (value.isActive = false)
     );
@@ -30,5 +30,5 @@ export const useProfilePage = () => {
     pets.value = data.value;
   };
   getPets();
-  return { navs, NavClick, info: user, pets: pets.pets };
+  return { navs, handleClick, info: user, pets: pets.pets };
 };

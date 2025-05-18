@@ -1,15 +1,11 @@
-<script setup>
-const { isSticky } = defineProps(['isSticky']);
-</script>
-
 <template>
     <div class="mx-auto">
         <video
-            class="absolute h-[120vh] min-w-full -z-20 top-0 left-0 object-cover max-sm:object-[63%] object-[70%] lg:object-[50%] xl:object-[20%] 2xl:object-[10%] "
+            class="absolute h-[120vh] min-w-full -z-20 top-0 left-0 object-cover max-sm:object-[63%] object-[70%] lg:object-[50%] xl:object-[20%] 2xl:object-[10%]  "
             autoplay muted loop>
-            <source src="../public/video.mov" type="video/mp4">
+            <source src="/video.mov" type="video/mp4">
         </video>
-        <div class="*:second-font lg:container px-5 md:px-20 pt-36 lg:pt-36 flex flex-col justify-normal max-md:h-full">
+        <div class="*:second-font lg:container px-5 md:px-20 pt-36  flex flex-col justify-normal max-md:h-full">
             <header class="w-fit mb-10 *:second-font max-md:mb-8">
                 <h1 class="text-white text-4xl md:text-5xl font-extrabold mb-6 text-wrap">Протяни свою лапу тому, <br>
                     кому она и

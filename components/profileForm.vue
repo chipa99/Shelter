@@ -1,6 +1,6 @@
 <script setup>
 const { isActive, fields } = defineProps(['isActive', 'fields']);
-const { formFields, deleteAccount, handleClick, toggleDisabled, isDisabled, isOpened, isSigned, isModaled } = useFormData();
+const { formFields, deleteAccount, handleClick, amendInfo, isEditing, isDisabled, isOpened, isSigned, isModaled } = useFormData();
 (formFields.value).forEach(field => {
   if (fields[field.id]) {
     field.model = fields[field.id];
@@ -9,7 +9,18 @@ const { formFields, deleteAccount, handleClick, toggleDisabled, isDisabled, isOp
 </script>
 
 <template>
-  <section class="rounded-xl bg-main p-8 w-full lg:w-full" v-if="isActive">
+  <section class="rounded-xl bg-main dark:bg-darkSecondary p-8 w-full lg:w-full" v-if="isActive">
+    <UModal v-model="isEditing">
+      <div class="p-4">
+        <h1 class="text-gray-600 font-extrabold text-4xl mb-8">Изменить данные</h1>
+        <h2 class="text-gray-600 text-lg mb-8">Вернуть обратно уже нельзя.</h2>
+        <button @click="amendInfo"
+          class="w-full rounded-md bg-gray-200 flex justify-center items-center hover:bg-gray-300 transition-all duration-300 text-gray-600 text-lg py-3 mb-2 shadow">Cохранить</button>
+        <button
+          class="w-full rounded-md bg-blue-400 flex  justify-center items-center hover:bg-blue-500 transition-all duration-300 text-white text-lg py-3 mb-2 shadow"
+          @click="isEditing = false">Отменить</button>
+      </div>
+    </UModal>
     <UModal v-model="isModaled">
       <div class="p-4">
         <h1 class="text-gray-600 font-extrabold text-4xl mb-8">Удалить аккаунт?</h1>
@@ -57,12 +68,12 @@ const { formFields, deleteAccount, handleClick, toggleDisabled, isDisabled, isOp
         </div>
       </div>
       <div class="sm:basis-1/2 lg:basis-3/4 h-full flex max-lg:flex-col justify-end lg:justify-center gap-6">
-        <button @click="toggleDisabled"
-          class=" inline-block  py-3 px-4 text-lg md:max-lg:w-3/4 xl:text-xl text-nowrap text-black hover:text-white shadow-md hover:shadow shadow-[#74a5ff] ring-2 ring-[#74a5ff] hover:bg-[#74a5ff] rounded-3xl drop-shadow-xl font-extrabold transiton duration-300">
-          <span v-if="isDisabled">Изменить данные</span><span v-else>Сохранить изменения</span>
+        <button @click="isDisabled = !isDisabled"
+          class=" inline-block  py-3 px-4 text-lg md:max-lg:w-3/4 xl:text-xl text-nowrap text-black hover:text-white shadow-md hover:shadow shadow-[#74a5ff] ring-2 ring-[#74a5ff] hover:bg-[#74a5ff] dark:text-white rounded-3xl drop-shadow-xl font-extrabold transiton duration-300">
+          {{ isDisabled ? 'Изменить данные' : 'Сохранить изменения' }}
         </button>
         <button @click="isModaled = true"
-          class=" inline-block text-nowrap py-3 px-4 text-lg md:max-lg:w-3/4 xl:text-xl  text-gray-300 hover:text-white  hover:bg-red-400 rounded-3xl drop-shadow-xl transiton duration-300 ">
+          class=" inline-block text-nowrap py-3 px-4 text-lg md:max-lg:w-3/4 xl:text-xl  text-gray-300 hover:text-white dark:text-gray-500 dark:hover:text-white dark:hover:bg-red-900 hover:bg-red-400 rounded-3xl drop-shadow-xl transiton duration-300 ">
           Удалить аккаунт
         </button>
       </div>
@@ -71,12 +82,12 @@ const { formFields, deleteAccount, handleClick, toggleDisabled, isDisabled, isOp
       <div v-for="field, index in formFields"
         class="flex gap-y-1 flex-col lg:last-of-type:col-span-2 last-of-type:row-span-1" :key="index">
         <label :for="field.placeholder" class=" text-xl"
-          :class="{ 'after': field.neccesary, 'text-gray-400': isDisabled }">{{
+          :class="{ 'after': field.neccesary, 'text-gray-400': isDisabled, 'text-light': !isDisabled }">{{
             (field.label || field.placeholder) }}</label>
         <input :id="field.placeholder" :disabled="isDisabled" :type="field.showPassword ? 'text' : field.type"
           @blur="handleClick(field)" @focus="handleClick(field)"
-          class=" rounded-lg w-full text-gray-400 focus:text-black shadow-md  placeholder-gray-400  placeholder:text-wrap focus:bg-blue-100 outline-0 h-full  text-xl peer focus:placeholder-black px-2 py-4 pl-4 ring-1  ring-gray-600    focus-within:ring-[#4b5fa0] focus-within:ring-2 focus-within:shadow-xl focus-within:bg-blue-100 transition duration-300  bg-white"
-          :class="{ 'hover:ring-[#4b5fa0] hover:ring-2 hover:shadow-xl ': !isDisabled, 'pb-60 hover:bg-white focus:bg-white': index == 4 }"
+          class=" rounded-lg w-full text-gray-400 focus:text-black shadow-md  placeholder-gray-400  placeholder:text-wrap focus:bg-blue-100 outline-0 h-full  text-xl peer px-2 py-4 pl-4 ring-1  ring-gray-600 dark:ring-gray-500 dark:focus:text-darkLight   focus-within:ring-[#4b5fa0] focus-within:ring-2 focus-within:shadow-xl focus-within:bg-blue-100 transition duration-300  bg-white dark:bg-[#232d46] "
+          :class="{ 'hover:ring-[#4b5fa0] hover:ring-2 hover:shadow-xl dark:hover:bg-darkMain dark:focus-within:bg-darkMain dark:hover:ring-thirdary': !isDisabled, 'pb-60 hover:bg-white focus-within:bg-white  ': index == 4 }"
           :placeholder="field.placeholder" v-model="field.model" />
       </div>
     </div>

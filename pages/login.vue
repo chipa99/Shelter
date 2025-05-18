@@ -1,34 +1,12 @@
-<!-- <script setup>
+<script setup>
 definePageMeta({
     layout: 'login',
-    // middleware: ['is-authed']
+    middleware: ['is-authed']
 });
 import { useStore } from '~/stores/auth';
 const { logIn } = useStore();
 const isLeft = ref(true);
 const isHovered = ref(false);
-// const { handleSubmit } = useForm();
-// const validationSchema = {
-//     firstname(value) {
-//         if (value && value.trim()) {
-//             return true;
-//         }
-//         return 'Firstname is required';
-//     },
-//     mail(value) {
-//         if (value && value.trim()) {
-//             return true;
-//         }
-//         return 'Mail is required';
-//     },
-//     password(value) {
-//         if (value && value.trim()) {
-//             return true;
-//         }
-//         return 'Password is required';
-//     }
-// }
-
 const formFields = ref([{
     placeholder: 'Имя',
     name: 'firstname',
@@ -52,15 +30,8 @@ const swap = () => {
     isLeft.value = !isLeft.value;
     if (formFields.value.length == 3) {
         formFields.value.shift();
-        // delete validationSchema.firstname
         return
     };
-    // validationSchema.firstname = (value) => {
-    //     if (value && value.trim()) {
-    //         return true;
-    //     }
-    //     return 'This is required';
-    // }
     formFields.value.unshift({
         placeholder: 'Имя',
         name: 'firstname',
@@ -72,35 +43,32 @@ const swap = () => {
 const sendForm = async () => {
     const sendData = {};
     (formFields.value).forEach(({ model, name }) => sendData[name] = model);
-    if (isLeft.value == true) {
-        const { data, status } = await useFetch('/api/login', {
+    const apiRoute = isLeft.value ? '/api/login' : '/api/profile';
+    try {
+        const { data, status } = await useFetch(apiRoute, {
             method: 'POST',
-            body: sendData
+            body: sendData,
         });
-        if (status.value == 'success') {
+        if (status.value === 'success') {
             logIn(data.value);
-            await navigateTo('/pets/1')
+            await navigateTo('/pets/1');
+        } else {
+            console.error('Login/Registration failed');
+            console.log(data.value);
         }
-        return
+    } catch (error) {
+        console.error('An error occurred during the request', error);
     }
-    const { data, status } = await useFetch('/api/profile', {
-        method: 'POST',
-        body: sendData
-    });
-    if (status.value == 'success') {
-        logIn(data.value);
-        await navigateTo('/pets/1')
-    }
-} -->
+}
 
-<!-- </script> -->
+</script>
 
 <template>
     <div
-        class="bg-main rounded-md   h-[500px] w-[939px] flex absolute top-0 left-0 bottom-0 right-0 m-auto sm:max-lg:container max-sm:size-full">
-        <!-- <aside
-            class="max-lg:hidden basis-5/12 flex flex-col items-center shadow-xl z-10 shadow-thirdary py-6  transition-all duration-500  bg-cover bg-center bg-thirdary rounded-l-md rounded-r-xl h-full w-full"
-            :class="{ 'lg:translate-x-[550px] ': !isLeft, 'lg:basis-5/12': !isHovered, 'lg:basis-6/12': isHovered && isLeft }">
+        class="bg-main dark:bg-[#344368] rounded-md h-[500px] w-[939px] flex absolute top-0 left-0 bottom-0 right-0 m-auto sm:max-lg:container max-sm:size-full">
+        <aside
+            class="max-lg:hidden basis-5/12 flex flex-col items-center shadow-xl z-10 shadow-thirdary bg-[url('/dog2.png')]  dark:shadow-thirdary/25 py-6  transition-all duration-500  bg-cover bg-center bg-thirdary rounded-l-md rounded-r-xl h-full w-full"
+            :class="{ 'lg:translate-x-[550px]': !isLeft, 'lg:basis-5/12': !isHovered, 'lg:basis-6/12': isHovered && isLeft }">
             <header class="flex items-center">
                 <h1 class="text-white text-2xl">Лапа Помощи</h1>
             </header>
@@ -109,7 +77,7 @@ const sendForm = async () => {
             class=" lg:basis-7/12 basis-full pt-6 transition-all px-6 duration-500 max-sm:justify-center flex flex-col z-0"
             :class="{ 'lg:-translate-x-[393px]': !isLeft, 'lg:basis-7/12': !isHovered, 'lg:basis-6/12': isHovered && isLeft }">
             <header class="flex flex-col items-center  mb-6 gap-6">
-                <h1 class="text-[#4b5fa0] text-3xl text-center ">
+                <h1 class="text-[#4b5fa0] dark:text-light text-3xl text-center ">
                     {{ isLeft ? "Регистрация" : "Войти в систему" }}
                 </h1>
                 <div class="flex  gap-2">
@@ -119,18 +87,21 @@ const sendForm = async () => {
                         <UIcon :name="button" size="32" />
                     </button>
                 </div>
-                <button class="text-gray-400 bg-transparent hover:text-gray-600 transition duration-300" @click="swap">
+                <button
+                    class="text-gray-400 bg-transparent hover:text-gray-600 dark:hover:text-gray-500 transition duration-300"
+                    @click="swap" type="button">
                     {{ isLeft ? "Или войдите с помощью своих данных" : "Или создайте новый аккаунт" }}
                 </button>
             </header>
             <div class="flex flex-col items-center gap-y-4 mb-6">
-                <div class="relative basis-full md:basis-1/2 rounded-lg p-2 pl-3 hover:ring-2 ring-1 ring-gray-300 hover:ring-[#4b5fa0] transition duration-300 hover:shadow-xl shadow-[#4b5fa0]  bg-white   flex items-center flex-row gap-2"
+                <div class="relative basis-full md:basis-1/2 rounded-lg p-2 pl-3 hover:ring-2 ring-1 ring-gray-300 hover:ring-[#4b5fa0] dark:bg-[#232d46]  dark:focus-within:bg-darkMain dark:hover:ring-light  dark:ring-gray-400  transition duration-300 group hover:shadow-xl shadow-[#4b5fa0]  bg-white   flex items-center flex-row gap-2"
                     v-for="field, index in formFields" :key="index">
-                    <UIcon :name="field.icon" class="text-gray-500 pointer-events-none absolute peer-focus:text-black"
+                    <UIcon :name="field.icon"
+                        class="text-gray-500 pointer-events-none absolute group-focus-within:text-black dark:group-focus-within:text-darkLight"
                         size="24px">
                     </UIcon>
                     <input
-                        class=" rounded-lg pl-8 w-full bg-white placeholder-gray-500  outline-0 text-2xl  peer focus:placeholder-black"
+                        class=" rounded-lg pl-8 w-full bg-white  placeholder-gray-500 dark:bg-[#232d46] dark:placeholder-gray-400 dark:text-gray-400  dark:focus:bg-darkMain dark:focus:text-darkLight dark:focus:placeholder-darkLight outline-0 text-2xl  transition duration-300 focus:text-black focus:placeholder-black"
                         :placeholder="field.placeholder" />
                 </div>
             </div>
@@ -150,14 +121,6 @@ const sendForm = async () => {
                 <UIcon name="iconamoon:arrow-right-2" class="transition duration-500 "
                     :class="{ 'rotate-180': !isLeft }" size="28" />
             </button>
-        </div> -->
+        </div>
     </div>
 </template>
-
-
-
-<style scoped>
-div aside {
-    background-image: url('../public/dog2.png');
-}
-</style>

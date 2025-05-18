@@ -4,6 +4,7 @@ export const useFormData = () => {
     const isOpened = ref(false);
     const isSigned = ref(false);
     const isModaled = ref(false);
+    const isEditing = ref(false);
     const formFields = ref([{
         placeholder: 'Имя',
         id: 'firstname',
@@ -39,18 +40,20 @@ export const useFormData = () => {
             method: 'patch',
             body: sendData
         });
+        isEditing.value = false;
     }
     const handleClick = (field: any) => {
         if (field.id === 'password') {
             field.showPassword = !field.showPassword; // Toggle showPassword directly
         }
     };
-    const toggleDisabled = () => {
-        if (isDisabled.value === false) {
-            amendInfo();
+
+    watch(isDisabled, (value, oldValue) => {
+        if (!oldValue && value) {
+            isEditing.value = true
+            return
         }
-        isDisabled.value = !isDisabled.value;
-    }
+    })
     const deleteAccount = async () => { await $fetch('/api/profile', { method: 'delete', body: { _id: useStore().user._id.$oid } }); useStore().logOut(); await navigateTo('/pets/1') };
-    return { formFields, handleClick, toggleDisabled, deleteAccount, isDisabled, isOpened, isSigned, isModaled };
+    return { formFields, handleClick, deleteAccount, amendInfo, isEditing, isDisabled, isOpened, isSigned, isModaled };
 };
