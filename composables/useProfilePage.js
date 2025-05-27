@@ -20,9 +20,9 @@ export const useProfilePage = () => {
     },
   ]);
   const handleClick = (index) => {
-    navs.value.forEach((value, indexFunc) =>
-      indexFunc == index ? (value.isActive = true) : (value.isActive = false)
-    );
+    navs.value.forEach(({ isActive }, indexFunc) => {
+      indexFunc == index ? (isActive = true) : (isActive = false);
+    });
   };
   const pets = ref([]);
   const getPets = async () => {

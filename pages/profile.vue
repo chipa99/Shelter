@@ -1,17 +1,17 @@
 <script setup>
 onMounted(() => window.scrollTo(0, 100));
 definePageMeta({
-    // middleware: ['is-authed']                
+    middleware: ['is-authed']
 });
-const { navs, handleClick, info, pets } = useProfilePage();
+const { navs, handleClick, info, pets } = await useProfilePage();
 const meetings = [];
 </script>
 
 <template>
     <div class="bg-secondary dark:bg-darkMain w-[100vw] h-fit">
-        <div class="container xl:px-12 2xl:px-28 mx-auto flex flex-row gap-4 xl:gap-8 py-6 h-fit">
+        <div class="container xl:px-12 pt-20 2xl:px-28 mx-auto flex flex-row gap-4 xl:gap-8 py-6 h-fit">
             <verticalNav :navs="navs" @handleClick="handleClick" />
-            <ProfileForm :is-active="navs[0].isActive" :fields="info" />
+            <ProfileForm v-if="navs[0].isActive" :fields="info" />
             <section class="rounded-xl bg-main p-4 pr-3 w-full  h-[95vh] overflow-y-scroll "
                 :class="{ 'flex items-center justify-center': pets.length == 0 }" v-if="navs[1].isActive">
                 <PetCards :pets="pets" place="profile" />

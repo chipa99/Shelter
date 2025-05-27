@@ -1,5 +1,5 @@
 <script setup>
-const { isActive, fields } = defineProps(['isActive', 'fields']);
+const { fields } = defineProps(['isActive', 'fields']);
 const { formFields, deleteAccount, handleClick, amendInfo, isEditing, isDisabled, isOpened, isSigned, isModaled } = useFormData();
 (formFields.value).forEach(field => {
   if (fields[field.id]) {
@@ -9,7 +9,7 @@ const { formFields, deleteAccount, handleClick, amendInfo, isEditing, isDisabled
 </script>
 
 <template>
-  <section class="rounded-xl bg-main dark:bg-darkSecondary p-8 w-full lg:w-full" v-if="isActive">
+  <section class="rounded-xl bg-main dark:bg-darkSecondary p-8 w-full lg:w-full">
     <UModal v-model="isEditing">
       <div class="p-4">
         <h1 class="text-gray-600 font-extrabold text-4xl mb-8">Изменить данные</h1>
@@ -82,7 +82,7 @@ const { formFields, deleteAccount, handleClick, amendInfo, isEditing, isDisabled
       <div v-for="field, index in formFields"
         class="flex gap-y-1 flex-col lg:last-of-type:col-span-2 last-of-type:row-span-1" :key="index">
         <label :for="field.placeholder" class=" text-xl"
-          :class="{ 'after': field.neccesary, 'text-gray-400': isDisabled, 'text-light': !isDisabled }">{{
+          :class="{ 'after': field.neccesary, 'text-gray-300': isDisabled, 'text-thirdary': !isDisabled }">{{
             (field.label || field.placeholder) }}</label>
         <input :id="field.placeholder" :disabled="isDisabled" :type="field.showPassword ? 'text' : field.type"
           @blur="handleClick(field)" @focus="handleClick(field)"

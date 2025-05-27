@@ -1,66 +1,28 @@
 <script setup>
 const props = defineProps({
-    // Text label for the button
-    label: {
-        type: String,
-        default: 'Click me',
-    },
-    border: {
-        type: String,
-        default: 'base'
-    },
-    color: {
-        type: String,
-        default: 'primary', // or "secondary", "outlined", "danger" etc.
-    },
+    label:
+        String,
     variant: {
         type: String,
-        default: 'solid'
+        default: 'primary'
     },
-    // Button size (e.g., small, medium, large)
-    size: {
-        type: String,
-        default: 'medium',
-    },
-    // Href for link (if element is a)
     href: {
         type: String,
         default: null,
     },
-    extra: {
-        type: String,
-        default: "",
-        required: false
-    }
+    extra: String
 });
 const buttonClasses = computed(() => {
-    const baseClasses = 'inline-flex drop-shadow-xl z-10 text-nowrap items-center justify-center font-extrabold  transition-all duration-300 hover:animate-none outline-0';
-    const colorClasses = {
-        primary: 'bg-[#74a5ff] hover:bg-[#6590e0] text-white ring-[#74a5ff] ring-2 hover:ring-0',
-        white: 'bg-current hover:text-black text-black ring-current ring-2 hover:ring-0',
-        dark: 'bg-thirdary text-white hover:shadow-current shadow-sm ring-thirdary ring-2 hover:ring-0',
-    };
+    const base = ` transition-all z-10 hover:cursor-pointer inline-block text-center duration-300`
     const variantClasses = {
-        solid: '!ring-0',
-        outline: '!bg-transparent text-current'
+        primary: ' py-3 px-5 text-2xl text-white bg-[#74a5ff] hover:bg-[#6590e0] text-nowrap rounded-2xl drop-shadow-xl font-extrabold  hover:text-gray-200 dark:hover:bg-thirdary',
+        primaryOutline: 'ring-light max-lg:hidden ring-2 rounded-lg px-4 py-1 text-2xl hover:ring-0 hover:bg-light dark:hover:bg-thirdary  hover:shadow-none hover:text-black dark:hover:text-white text-white shadow-xl shadow-light/20 ',
+        lightOutline: 'ring-main  dark:ring-light ring-2 rounded-xl text-white dark:text-light  text-2xl px-4 py-2 hover:bg-main dark:hover:bg-thirdary hover:text-black dark:hover:text-white hover:shadow-md dark:hover:shadow-sm hover:ring-0 dark:hover:shadow-darkSecondary'
     }
-    const borderClasses = {
-        xl: 'rounded-3xl',
-        base: 'rounded-2xl',
-        sm: 'rounded-sm'
-    }
-    const sizeClasses = {
-        small: 'px-2 py-1.5 text-base',
-        medium: 'px-5 py-3 text-2xl',
-        large: 'px-6 py-4 text-3xl',
-    };
 
-    const variantClass = variantClasses[props.variant] || variantClasses.solid;
-    const sizeClass = sizeClasses[props.size] || sizeClasses.medium;
-    const borderClass = borderClasses[props.border] || sizeClasses.base;
-    const colorClass = colorClasses[props.color] || colorClasses.primary
+    const variantClass = variantClasses[props.variant]
 
-    return `${baseClasses} ${colorClass} ${sizeClass} ${borderClass} ${variantClass} ${props.extra} `;
+    return `${base} ${variantClass}  ${props.extra} `;
 });
 </script>
 

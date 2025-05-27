@@ -14,7 +14,6 @@ const all = await getPets();
 
 <template>
     <div class="container mx-auto pt-20  xl:px-16 2xl:px-28">
-        <searchForm />
         <PetCards :pets="all.pets" place="main" />
         <footer class="mt-4 flex justify-center">
             <AppPagination :totalItems="all.total" />

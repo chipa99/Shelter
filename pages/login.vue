@@ -4,6 +4,8 @@ definePageMeta({
     middleware: ['is-authed']
 });
 import { useStore } from '~/stores/auth';
+import { object, string } from 'yup';
+import { useForm } from 'vee-validate';
 const { logIn } = useStore();
 const isLeft = ref(true);
 const isHovered = ref(false);
@@ -11,69 +13,67 @@ const formFields = ref([{
     placeholder: 'Имя',
     name: 'firstname',
     icon: 'basil:user-outline',
-    model: ref('')
 }, {
     placeholder: 'Почта',
     name: 'mail',
     icon: 'line-md:email',
-    model: ref('')
+    type: 'email'
 }, {
     placeholder: 'Пароль',
     name: 'password',
     icon: 'mdi:password-outline',
-    model: ref('')
+    type: 'password'
 }]);
-const regWays = ['hugeicons:vk', 'mingcute:google-fill', 'line-md:telegram']
+const regWays = ['hugeicons:vk', 'mingcute:google-fill', 'line-md:telegram'];
 
+const schema = object({
+    mail: string().required('Данное поле обязательное').email('Это не почта'),
+    password: string().required('Данное поле обязательное').min(6, 'В пароле должно быть минимум 6 символов'),
+    firstname: string().required('Данное поле обязательное')
+});
 
-const swap = () => {
-    isLeft.value = !isLeft.value;
-    if (formFields.value.length == 3) {
-        formFields.value.shift();
-        return
-    };
-    formFields.value.unshift({
-        placeholder: 'Имя',
-        name: 'firstname',
-        icon: 'basil:user-outline',
-        model: ref('')
-    });
-}
-
-const sendForm = async () => {
-    const sendData = {};
-    (formFields.value).forEach(({ model, name }) => sendData[name] = model);
+const { handleSubmit, setFieldValue, setErrors, resetForm } = useForm({ validationSchema: schema });
+const onSubmit = handleSubmit(async (values) => {
     const apiRoute = isLeft.value ? '/api/login' : '/api/profile';
     try {
-        const { data, status } = await useFetch(apiRoute, {
+        const { data, status, error, } = await useFetch(apiRoute, {
             method: 'POST',
-            body: sendData,
+            body: values,
         });
-        if (status.value === 'success') {
+        if (status.value == 'success') {
             logIn(data.value);
             await navigateTo('/pets/1');
         } else {
-            console.error('Login/Registration failed');
-            console.log(data.value);
-        }
-    } catch (error) {
-        console.error('An error occurred during the request', error);
+            if (error.value.statusCode === 404 || error.value.statusCode === 401) {
+                setErrors({ mail: 'Такого аккаунта не существует', password: 'Такого аккаунта не существует' });
+            };
+            if (error.value.statusCode === 409) {
+                setErrors({ mail: 'Аккаунт с такой почтой уже существует' })
+            };
+        };
+    } catch (err) {
+        console.error(err)
+    };
+});
+const swap = () => {
+    isLeft.value = !isLeft.value;
+    resetForm();
+    if (!isLeft.value) {
+        setFieldValue('firstname', 'W%HoU@cvk9fixNyF');
     }
-}
-
+};
 </script>
-
 <template>
     <div
-        class="bg-main dark:bg-[#344368] rounded-md h-[500px] w-[939px] flex absolute top-0 left-0 bottom-0 right-0 m-auto sm:max-lg:container max-sm:size-full">
+        class="bg-main dark:bg-[#344368] rounded-md h-[570px] w-[1040px] flex absolute top-0 left-0 bottom-0 right-0 m-auto sm:max-lg:container max-sm:size-full">
         <aside
             class="max-lg:hidden basis-5/12 flex flex-col items-center shadow-xl z-10 shadow-thirdary bg-[url('/dog2.png')]  dark:shadow-thirdary/25 py-6  transition-all duration-500  bg-cover bg-center bg-thirdary rounded-l-md rounded-r-xl h-full w-full"
-            :class="{ 'lg:translate-x-[550px]': !isLeft, 'lg:basis-5/12': !isHovered, 'lg:basis-6/12': isHovered && isLeft }">
+            :class="{ 'lg:translate-x-[615px]': !isLeft, 'lg:basis-5/12': !isHovered, 'lg:basis-6/12': isHovered && isLeft }">
             <header class="flex items-center">
                 <h1 class="text-white text-2xl">Лапа Помощи</h1>
             </header>
         </aside>
-        <form @submit.prevent="sendForm"
+        <form @submit.prevent="onSubmit"
             class=" lg:basis-7/12 basis-full pt-6 transition-all px-6 duration-500 max-sm:justify-center flex flex-col z-0"
             :class="{ 'lg:-translate-x-[393px]': !isLeft, 'lg:basis-7/12': !isHovered, 'lg:basis-6/12': isHovered && isLeft }">
             <header class="flex flex-col items-center  mb-6 gap-6">
@@ -94,16 +94,7 @@ const sendForm = async () => {
                 </button>
             </header>
             <div class="flex flex-col items-center gap-y-4 mb-6">
-                <div class="relative basis-full md:basis-1/2 rounded-lg p-2 pl-3 hover:ring-2 ring-1 ring-gray-300 hover:ring-[#4b5fa0] dark:bg-[#232d46]  dark:focus-within:bg-darkMain dark:hover:ring-light  dark:ring-gray-400  transition duration-300 group hover:shadow-xl shadow-[#4b5fa0]  bg-white   flex items-center flex-row gap-2"
-                    v-for="field, index in formFields" :key="index">
-                    <UIcon :name="field.icon"
-                        class="text-gray-500 pointer-events-none absolute group-focus-within:text-black dark:group-focus-within:text-darkLight"
-                        size="24px">
-                    </UIcon>
-                    <input
-                        class=" rounded-lg pl-8 w-full bg-white  placeholder-gray-500 dark:bg-[#232d46] dark:placeholder-gray-400 dark:text-gray-400  dark:focus:bg-darkMain dark:focus:text-darkLight dark:focus:placeholder-darkLight outline-0 text-2xl  transition duration-300 focus:text-black focus:placeholder-black"
-                        :placeholder="field.placeholder" />
-                </div>
+                <LoginsInput v-for="item in formFields" :key="item.name" :item="item" :isLeft="isLeft" />
             </div>
             <footer class="flex justify-center">
                 <button
@@ -113,9 +104,9 @@ const sendForm = async () => {
                 </button>
             </footer>
         </form>
-        <div class="absolute z-10  top-48 left-[370px] transition duration-500 max-lg:hidden"
+        <div class="absolute z-10  top-56 left-[408px] transition duration-500 max-lg:hidden"
             @mouseenter="isHovered = true" @mouseleave="isHovered = false"
-            :class="{ 'translate-x-[155px]': !isLeft, 'translate-x-[40px]': isHovered && isLeft }">
+            :class="{ 'translate-x-[180px]': !isLeft, 'translate-x-[40px]': isHovered && isLeft }">
             <button class="bg-[#4b5fa0] rounded-full flex items-center p-2.5 outline-0 group text-white" type="button"
                 @click="swap">
                 <UIcon name="iconamoon:arrow-right-2" class="transition duration-500 "
