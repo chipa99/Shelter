@@ -15,7 +15,9 @@ const UserSchema = new Schema({
         required: true,
         type: String
     },
-    description: String
+    description: String,
+    image: String,
+    favorite: [String]
 });
 
 export const User = model("User", UserSchema);

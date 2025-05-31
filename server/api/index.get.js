@@ -1,9 +1,9 @@
 import { Pet } from "~~/server/models/pet.model";
-import mongoose from "mongoose";
+import { connect } from "mongoose";
 
 export default defineEventHandler(async (event) => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/shelter");
+    await connect("mongodb://localhost:27017/shelter");
     let { skip, query } = getQuery(event);
     query = JSON.parse(query);
     const pets = await Pet.find(query).skip(skip).limit(9);

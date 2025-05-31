@@ -1,5 +1,5 @@
 <template>
-    <section class="bg-main dark:bg-darkMain w-full pt-24">
+    <section class="bg-main dark:bg-darkMain w-full pt-24" id="volunteer">
         <blockquote class="text-black dark:text-light text-4xl font-bold text-center text-pretty  mb-16">
             “Волонтерство –
             это не только

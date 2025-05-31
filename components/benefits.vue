@@ -1,6 +1,6 @@
 <template>
-    <div
-        class="bg-[#5a5451] dark:bg-[#232d46] dark rounded-b-3xl  shadow-2xl overflow-hidden h-[130vh] lg:h-[110vh] max-lg:flex flex-col  relative pt-6 md:pt-8 ">
+    <div id="aboutus"
+        class="bg-[#5a5451] dark:bg-[#232d46] shadow-2xl overflow-hidden h-[130vh] lg:h-[110vh] max-lg:flex flex-col  relative pt-6 md:pt-8 ">
         <h1
             class="font-bold smm:text-xl sm:text-2xl md:text-4xl lg:text-5xl text-white text-center mb-8 dark:text-light">
             Почему же мы?

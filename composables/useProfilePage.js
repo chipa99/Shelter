@@ -6,7 +6,7 @@ export const useProfilePage = () => {
     {
       label: "Профиль",
       icon: "iconamoon:profile-light",
-      isActive: true,
+      isActive: false,
     },
     {
       label: "Понравившиеся",
@@ -16,19 +16,21 @@ export const useProfilePage = () => {
     {
       label: "Встречи",
       icon: "healthicons:group-discussion-meeting-outline",
-      isActive: false,
+      isActive: true,
     },
   ]);
-  const handleClick = (index) => {
-    navs.value.forEach(({ isActive }, indexFunc) => {
-      indexFunc == index ? (isActive = true) : (isActive = false);
+  const handle = (index) => {
+    navs.value.forEach((value, indexFunc) => {
+      indexFunc == index ? (value.isActive = true) : (value.isActive = false);
     });
   };
-  const pets = ref([]);
   const getPets = async () => {
     const { data } = await useFetch("/api", { query: { skip: 0, query: {} } });
-    pets.value = data.value;
+    const favorite = ref([]);
+    data.value.pets.forEach((pet) => {
+      user.favorite.includes(pet._id) ? favorite.value.push(pet) : false;
+    });
+    return favorite.value;
   };
-  getPets();
-  return { navs, handleClick, info: user, pets: pets.pets };
+  return { info: user, getPets, navs, handle };
 };

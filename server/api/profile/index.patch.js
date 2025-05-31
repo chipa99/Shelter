@@ -1,12 +1,19 @@
 import { User } from "~~/server/models/user.model";
-import mongoose from "mongoose";
+import { connect } from "mongoose";
 
 export default defineEventHandler(async (event) => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/shelter");
+    await connect("mongodb://localhost:27017/shelter");
     const body = await readBody(event);
-    await User.findOneAndUpdate(body._id, body);
-    return "success";
+    let user;
+    if (!body.password) {
+      const { password } = await User.findOne({ mail: body.mail });
+      body.password = password;
+      user = await User.findOneAndUpdate({ mail: body.mail }, body);
+    } else {
+      user = await User.findOneAndUpdate({ mail: body.mail }, body);
+    }
+    return user;
   } catch (e) {
     console.error(e);
   }

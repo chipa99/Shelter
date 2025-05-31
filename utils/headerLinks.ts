@@ -6,15 +6,12 @@ export default function () {
         },
         {
             label: 'О нас',
-            to: '/'
+            to: '/#aboutus'
         }, {
             label: 'Наши животные',
             to: '/pets/1'
         }, {
             label: 'Помочь приюту',
-            to: '/'
-        }, {
-            label: 'Контакты',
-            to: '/'
+            to: '/#volunteer'
         }];
 }

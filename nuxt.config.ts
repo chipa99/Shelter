@@ -2,10 +2,11 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  // target: 'static',
-  // generate: {
-  //   fallback: true
-  // },
+  app: {
+    head: {
+      title: 'Лапа Помощи'
+    }
+  },
   modules: ['@nuxt/ui', '@nuxtjs/tailwindcss', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
   pinia: {
     storesDirs: ['~/stores/**', '~/custom-folder/stores/**'],

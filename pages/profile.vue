@@ -1,55 +1,26 @@
 <script setup>
 onMounted(() => window.scrollTo(0, 100));
 definePageMeta({
-    middleware: ['is-authed']
+    middleware: ['is-authed'],
+    name: 'Профиль'
 });
-const { navs, handleClick, info, pets } = await useProfilePage();
+const { info, getPets, handle, navs } = useProfilePage();
+
+const pets = await getPets();
 const meetings = [];
 </script>
 
 <template>
     <div class="bg-secondary dark:bg-darkMain w-[100vw] h-fit">
         <div class="container xl:px-12 pt-20 2xl:px-28 mx-auto flex flex-row gap-4 xl:gap-8 py-6 h-fit">
-            <verticalNav :navs="navs" @handleClick="handleClick" />
+            <verticalNav :navs="navs" @handle="handle" />
             <ProfileForm v-if="navs[0].isActive" :fields="info" />
-            <section class="rounded-xl bg-main p-4 pr-3 w-full  h-[95vh] overflow-y-scroll "
-                :class="{ 'flex items-center justify-center': pets.length == 0 }" v-if="navs[1].isActive">
-                <PetCards :pets="pets" place="profile" />
+            <section class="rounded-xl bg-main p-4 pr-3 w-full  h-[95vh] overflow-y-scroll " v-if="navs[1].isActive">
+                <PetCards place="profile" :pets="pets" />
             </section>
             <section class="rounded-xl bg-main p-4 pr-3 w-full  h-[95vh] overflow-y-scroll " v-if="navs[2].isActive">
-                <PetCards class="v-else" place="meetings" :pets="pets" />
+                <PetCards place="meetings" :pets="meetings" />
             </section>
         </div>
     </div>
 </template>
-
-<style scoped>
-.after::after {
-    content: '*';
-    color: #f87171;
-    margin-left: 1px;
-}
-
-.hover:has(span:hover) {
-    height: 610px !important;
-    bottom: -320%;
-    transition-duration: 300ms;
-    transition-delay: 200ms;
-}
-
-* {
-    scrollbar-width: 9px !important;
-}
-
-::-webkit-scrollbar {
-    width: 9px !important;
-    background-color: var(main);
-    z-index: -10;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgb(227, 227, 227);
-    z-index: -10;
-    height: 20px;
-}
-</style>

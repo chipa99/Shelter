@@ -1,16 +1,16 @@
 import { User } from "~~/server/models/user.model";
-import mongoose from "mongoose";
+import { connect } from "mongoose";
 
 export default defineEventHandler(async (event) => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/shelter");
-    const body = await readBody(event);
-    console.log(body);
-    const user = await User.findOne({ mail: body.mail });
+    await connect("mongodb://localhost:27017/shelter");
+    const { mail, password } = await readBody(event);
+    const user = await User.findOne({ mail });
     if (user) {
-      if (user.password == body.password) {
-        delete user[password];
-        return user;
+      if (user.password == password) {
+        const userResponse = { ...user.toObject() };
+        delete userResponse.password;
+        return userResponse;
       } else {
         return createError({ statusCode: 401 });
       }
@@ -18,6 +18,6 @@ export default defineEventHandler(async (event) => {
       return createError({ statusCode: 404 });
     }
   } catch (e) {
-    console.error(e);
+    return createError({ statusCode: 500 });
   }
 });

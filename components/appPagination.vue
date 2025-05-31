@@ -17,7 +17,7 @@ const { pages, goToPage, currentPage, totalPages } = usePaginationData(totalItem
 </script>
 
 <template>
-    <div class="flex items-center justify-center mt-4 gap-1">
+    <div class="flex items-center justify-center mt-4 gap-1" v-if="itemsPerPage < totalItems">
         <button :disabled="currentPage == 1" @click="goToPage(1)"
             class="rounded-full size-[42px]  flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#26304b]  transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
             <UIcon name="iconamoon:arrow-left-2" size="26px" />

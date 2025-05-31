@@ -14,7 +14,7 @@ watch(isDark, (newIsDark) => {
 
 
 <template>
-    <div class="max-sm:pl-6 flex flex-row gap-2 items-center" :class="{ 'ml-3': place == 'header' }">
+    <div class="max-sm:pl-6 flex flex-row gap-2 items-center" >
         <span class="transition duration-300 max-lg:hidden" v-if="place == 'footer'"
             :class="{ 'text-white': !isDark, 'text-gray-400': isDark }">Светлая</span>
         <div class=" rounded-3xl mx-1 w-16 h-8 flex items-center bg-gray-400 relative switcher"

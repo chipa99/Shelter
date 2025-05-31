@@ -1,6 +1,6 @@
-import { useStore } from "@/stores/auth";
+import { useStore } from "~/stores/auth";
 export const useHeaderData = (isMain) => {
-  const { isAuthed } = useStore();
+  const { isAuthed, logOut } = useStore();
   const isOpened = ref(false);
   const isSticky = ref(false);
   const isVisible = ref(true);
@@ -19,7 +19,13 @@ export const useHeaderData = (isMain) => {
     isSticky.value = scrollTop > 50;
     isVisible.value = !scrollTop > 50 ? true : isVisible.value;
   };
-
+  const getOut = async () => {
+    logOut();
+    useRoute().path == "/profile"
+      ? await navigateTo("/pets/1")
+      : await navigateTo(useRoute().path, useRoute().params);
+    reloadNuxtApp();
+  };
   const headerClasses = computed(() => {
     return {
       "fixed top-0 left-0 bg-opacity-50 backdrop-blur-md backdrop-brightness-[0.65]":
@@ -36,7 +42,7 @@ export const useHeaderData = (isMain) => {
   }));
   const navClasses = computed(() => ({
     "max-lg:size-0": !isOpened.value,
-    "size-80 py-8": isOpened.value,
+    "size-[17rem] py-8": isOpened.value,
   }));
   const linkClasses = (index) => ({
     hidden: index === 0 && !isOpened.value,
@@ -48,10 +54,11 @@ export const useHeaderData = (isMain) => {
       isSticky.value,
   });
   const burgerButtonClasses = computed(() => ({
-    "before:rotate-45 before:mt-0 after:-mt-1 after:rotate-[135deg] bg-transparent":
+    "before:rotate-45 before:mt-0 after:-mt-1 after:rotate-[135deg] !bg-transparent":
       isOpened.value,
     "before:-mt-[8px] after:mt-[12px]": !isOpened.value,
-    "bg-gray-700 after:bg-gray-700 before:bg-gray-700": isMain,
+    "bg-gray-700 after:bg-gray-700 before:bg-gray-700 dark:bg-white dark:after:bg-white dark:before:bg-white":
+      isMain,
     "after:bg-white before:bg-white": !isMain,
     "bg-white": !isMain && !isOpened.value,
   }));
@@ -66,5 +73,6 @@ export const useHeaderData = (isMain) => {
     navClasses,
     linkClasses,
     burgerButtonClasses,
+    getOut,
   };
 };

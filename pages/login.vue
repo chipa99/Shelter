@@ -44,6 +44,7 @@ const onSubmit = handleSubmit(async (values) => {
             logIn(data.value);
             await navigateTo('/pets/1');
         } else {
+            console.log('jopa2')
             if (error.value.statusCode === 404 || error.value.statusCode === 401) {
                 setErrors({ mail: 'Такого аккаунта не существует', password: 'Такого аккаунта не существует' });
             };
@@ -52,7 +53,7 @@ const onSubmit = handleSubmit(async (values) => {
             };
         };
     } catch (err) {
-        console.error(err)
+        console.log('jopa3')
     };
 });
 const swap = () => {
