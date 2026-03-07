@@ -15,13 +15,13 @@ const inputClasses = computed(() => {
         'rounded-lg pl-8 w-full bg-white  placeholder-gray-500  dark:bg-[#232d46] dark:placeholder-gray-400 dark:text-gray-400  dark:focus:bg-darkMain dark:focus:text-darkLight dark:focus:placeholder-darkLight outline-0 text-2xl  transition duration-300 focus:text-black focus:placeholder-black': item.icon,
         'rounded-lg w-full text-gray-400 focus:text-black shadow-md  placeholder-gray-400  placeholder:text-wrap focus:bg-blue-100 outline-0 h-full  text-xl peer px-2 py-4 pl-4 ring-1  ring-gray-600 dark:ring-gray-500 dark:focus:text-darkLight   focus-within:ring-[#4b5fa0] focus-within:ring-2 focus-within:shadow-xl focus-within:bg-blue-100 transition duration-300  bg-white dark:bg-[#232d46]': !item.icon,
         'hover:ring-[#4b5fa0] hover:ring-2 hover:shadow-xl dark:hover:bg-darkMain dark:focus-within:bg-darkMain dark:hover:ring-thirdary': !isDisabled && !item.icon,
-        'pb-60 hover:bg-white focus-within:bg-white': index == 4 && !item.icon
+        'pb-60 hover:bg-white focus-within:bg-white': index == 2 && !item.icon
     }
 })
 </script>
 
 <template>
-    <div :class="{ 'hidden': isLeft == false && item.name == 'firstname' }" v-if="index !== 5">
+    <div :class="{ 'hidden': isLeft == false && item.name == 'firstname' }" v-if="index != 3">
         <div :class="baseClasses">
             <UIcon :name="item.icon" v-if="item.icon"
                 class="text-gray-500 pointer-events-none absolute group-focus-within:text-black dark:group-focus-within:text-darkLight"

@@ -6,18 +6,30 @@ export default defineEventHandler(async (event) => {
     await connect("mongodb://localhost:27017/shelter");
     const { mail, password } = await readBody(event);
     const user = await User.findOne({ mail });
-    if (user) {
-      if (user.password == password) {
-        const userResponse = { ...user.toObject() };
-        delete userResponse.password;
-        return userResponse;
-      } else {
-        return createError({ statusCode: 401 });
-      }
-    } else {
-      return createError({ statusCode: 404 });
+    if (!user) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: "Неверный email или пароль",
+      });
     }
-  } catch (e) {
-    return createError({ statusCode: 500 });
+
+    // СРАВНИВАЕМ пароли: plaintext из формы vs хэш из БД
+    const isPasswordValid = await user.comparePassword(password);
+    if (!isPasswordValid) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: "Неверный email или пароль",
+      });
+    }
+
+    return {
+      success: true,
+      user,
+    };
+  } catch (error) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: error.message || "Ошибка авторизации",
+    });
   }
 });

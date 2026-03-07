@@ -41,11 +41,10 @@ const onSubmit = handleSubmit(async (values) => {
             body: values,
         });
         if (status.value == 'success') {
-            logIn(data.value);
+            logIn(data.value.user);
             await navigateTo('/pets/1');
         } else {
-            console.log('jopa2')
-            if (error.value.statusCode === 404 || error.value.statusCode === 401) {
+            if (error.value.statusCode === 401) {
                 setErrors({ mail: 'Такого аккаунта не существует', password: 'Такого аккаунта не существует' });
             };
             if (error.value.statusCode === 409) {

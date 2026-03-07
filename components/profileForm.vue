@@ -1,12 +1,13 @@
 <script setup>
-
-const { fields } = defineProps(['isActive', 'fields']);
-const { formFields, deleteAccount, handleClick, amendInfo, isEditing, isDisabled, isOpened, isSigned, isModaled, setFieldValue, values, handleSubmit } = useFormData();
+const { fields } = defineProps(['fields']);
+console.log(fields)
+const { formFields, deleteAccount, amendInfo, isEditing, isDisabled, isOpened, isSigned, isModaled, setFieldValue, values, handleSubmit } = useFormData();
 (formFields.value).forEach(field => {
   if (fields[field.name]) {
     setFieldValue(field.name, fields[field.name]);
   }
 });
+console.log(formFields)
 const disabling = handleSubmit(() => { !isDisabled.value ? isEditing.value = true : false; isDisabled.value = false; });
 </script>
 
@@ -48,7 +49,7 @@ const disabling = handleSubmit(() => { !isDisabled.value ? isEditing.value = tru
           <h1 class="font-extrabold text-center mb-2">Аватар</h1>
           <img :src="values.image || '/placeholder.jpg'" alt="avatar"
             class="rounded-[100%] mb-2 size-48 mx-auto object-cover">
-          <LoginsInput :item="formFields[5]" :isDisabled="isDisabled" class="mb-3" />
+          <LoginsInput :item="formFields[3]" :isDisabled="isDisabled" class="mb-3" />
           <div class="flex row justify-between items-center flex-wrap">
             <span class="text-xs hover:text-blue-400 hover:cursor-pointer peer ">Опубликовывая
               фото, вы

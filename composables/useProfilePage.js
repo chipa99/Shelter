@@ -2,6 +2,7 @@ import { useStore } from "~/stores/auth";
 
 export const useProfilePage = () => {
   const { user } = useStore();
+  console.log(user);
   const navs = ref([
     {
       label: "Профиль",
