@@ -7,6 +7,17 @@ export default defineNuxtConfig({
       title: 'Лапа Помощи'
     }
   },
+
+  nitro: {
+    routeRules: {
+      '/': { prerender: true },
+      '/pets': { ssr: true, swr: 300 },
+      '/pets/pet/**': { prerender: true, swr: 3600 },
+      '/profile/**': { ssr: true, headers: { 'cache-control': 'private, no-store, no-cache, must-revalidate' } },
+      '/login': { ssr: false },
+    }
+  },
+
   modules: ['@nuxt/ui', '@nuxtjs/tailwindcss', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
   pinia: {
     storesDirs: ['~/stores/**', '~/custom-folder/stores/**'],

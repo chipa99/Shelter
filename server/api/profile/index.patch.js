@@ -1,31 +1,12 @@
 import { User } from "~~/server/models/user.model";
-import { connect } from "mongoose";
 
 export default defineEventHandler(async (event) => {
-  try {
-    await connect("mongodb://localhost:27017/shelter");
-    const body = await readBody(event);
-    const userId = body._id;
+  const { _id: userId, password, ...updateData } = await readBody(event);
 
-    if (!userId) {
-      throw createError({ statusCode: 401, statusMessage: "Не авторизован" });
-    }
+  const user = await User.findByIdAndUpdate(userId, updateData, {
+    new: true,
+  }).select("-password");
 
-    const user = await User.findById(userId);
-    if (!user) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: "Пользователь не найден",
-      });
-    }
-
-    Object.assign(user, body);
-    await user.save();
-
-    const { password, ...safeUser } = user.toObject();
-    return { user: safeUser };
-  } catch (e) {
-    console.error(e);
-    throw createError({ statusCode: 500, statusMessage: "Ошибка обновления" });
-  }
+  if (!user) throw createError({ statusCode: 404 });
+  return { user };
 });

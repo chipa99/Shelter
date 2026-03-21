@@ -7,7 +7,7 @@ export const useProfilePage = () => {
     {
       label: "Профиль",
       icon: "iconamoon:profile-light",
-      isActive: false,
+      isActive: true,
     },
     {
       label: "Понравившиеся",
@@ -17,7 +17,7 @@ export const useProfilePage = () => {
     {
       label: "Встречи",
       icon: "healthicons:group-discussion-meeting-outline",
-      isActive: true,
+      isActive: false,
     },
   ]);
   const handle = (index) => {
